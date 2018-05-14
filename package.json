@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node index.js"
+    "start": "npm install express & npm install mongoose & node index.js"
   },
   "requires": true,
   "lockfileVersion": 1,
