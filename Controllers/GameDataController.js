@@ -2,19 +2,6 @@
 var mongoose = require('mongoose');
 var TeamInfo = mongoose.model('TeamInfo');
 var GameSchedule = mongoose.model('GameSchedule');
-var ModelResponse = require('../Models/Response');
-
-var ModelJSON = ModelResponse.ModalResponse();
-
-exports.processRequest = function(req, res) {
-if (req.body.queryResult.action == "schedule") {
-    getTeamSchedule(req,res)
-  }
-  else if (req.body.queryResult.action == "tell.about")
-  {
-      getTeamInfo(req,res)
-  }
-};
 
 
 function getTeamSchedule(req,res)
