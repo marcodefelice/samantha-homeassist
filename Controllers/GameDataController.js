@@ -4,10 +4,10 @@ var TeamInfo = mongoose.model('TeamInfo');
 var GameSchedule = mongoose.model('GameSchedule');
 
 exports.processRequest = function(req, res) {
-if (req.body.result.action == "schedule") {
+if (req.body.queryResult.action == "schedule") {
     getTeamSchedule(req,res)
   }
-  else if (req.body.result.action == "tell.about")
+  else if (req.body.queryResult.action == "tell.about")
   {
       getTeamInfo(req,res)
   }
@@ -16,7 +16,7 @@ if (req.body.result.action == "schedule") {
 
 function getTeamSchedule(req,res)
 {
-let parameters = req.body.result.parameters;
+let parameters = req.body.queryResult.parameters;
     if (parameters.team1 == "")
     {
       let game_occurence = parameters.game_occurence;
