@@ -2,6 +2,9 @@
 var mongoose = require('mongoose');
 var TeamInfo = mongoose.model('TeamInfo');
 var GameSchedule = mongoose.model('GameSchedule');
+var ModelResponse = require('../Models/Response');
+
+var ModelJSON = ModelResponse.ModalResponse();
 
 exports.processRequest = function(req, res) {
 if (req.body.queryResult.action == "schedule") {
@@ -56,17 +59,13 @@ var winningStatement = "";
                       winningStatement = "Kings lost this match by "+requiredGame.score;
                     }
                     return res.json({
-                        speech: 'Last game between Kings and '+parameters.team+' was played on '+requiredGame.date+' .'+winningStatement,
-                        displayText: 'Last game between Kings and '+parameters.team+' was played on '+requiredGame.date+' .'+winningStatement,
-                        source: 'game schedule'
+                        fulfillmentText: 'Last game between Kings and '+parameters.team+' was played on '+requiredGame.date+' .'+winningStatement,
                     });
                     break;
                   }
                   else {
                     return res.json({
-                        speech: 'Cant find any previous game played between Kings and '+parameters.team,
-                        displayText: 'Cant find any previous game played between Kings and '+parameters.team,
-                        source: 'game schedule'
+                        fulfillmentText: 'Cant find any previous game played between Kings and '+parameters.team,
                     });
                   }
                 }
@@ -76,17 +75,13 @@ var winningStatement = "";
       }
       else {
         return res.json({
-            speech: 'Next game schedules will be available soon',
-            displayText: 'Next game schedules will be available soon',
-            source: 'game schedule'
+            fulfillmentText: 'Next game schedules will be available soon',
         });
       }
     }
     else {
       return res.json({
-          speech: 'Cant handle the queries with two teams now. I will update myself',
-          displayText: 'Cant handle the queries with two teams now. I will update myself',
-          source: 'game schedule'
+          fulfillmentText: 'Cant handle the queries with two teams now. I will update myself',
       });
     }
   }
@@ -115,9 +110,7 @@ var winningStatement = "";
           }
           else {
             return res.json({
-                  speech: 'Currently I am not having information about this team',
-                  displayText: 'Currently I am not having information about this team',
-                  source: 'team info'
+                  fulfillmentText: 'Currently I am not having information about this team',
               });
           }
         });
