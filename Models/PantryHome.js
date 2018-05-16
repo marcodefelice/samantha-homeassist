@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Pantry = new Schema({
+var PantryHome = new Schema({
 insertdate:{
  type:Date,
  required:true
@@ -17,10 +17,10 @@ location: {
   type: String,
   required:true
 },
-quantity: {
+numberelements: {
   type: Number,
   required:false,
   default:1
 }
 });
-module.exports = mongoose.model('Pantry', Pantry);
+module.exports = mongoose.model('PantryHome', PantryHome);
