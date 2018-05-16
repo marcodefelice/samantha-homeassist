@@ -5,8 +5,7 @@ http         = require('http'),
 config       = require('./config'),
 server       = express(),
 mongoose     = require('mongoose'),
-GameSchedule = require('./Models/TeamInfo');
-GameSchedule = require('./Models/GameSchedule');
+Pantry = require('./Models/Pantry');
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl);
