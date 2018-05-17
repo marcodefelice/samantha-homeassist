@@ -21,16 +21,16 @@ module.exports = {
 
       switch(param.where) {
         case "home":
-          insertToHome(param.what,param.number);
+          return insertToHome(param.what,param.number);
           break;
         case "freezer":
-          insertToFreezer(param.what,param.number);
+          return insertToFreezer(param.what,param.number);
           break;
         case "fridge":
-          insertToFridge(param.what,param.number);
+          return insertToFridge(param.what,param.number);
           break;
         default:
-          insertToPantry(param.what,param.number);
+          return insertToPantry(param.what,param.number);
           break;
       }
     }
@@ -58,7 +58,7 @@ function insertToHome(what,qty) {
     });
 
     //return a response
-    reply(error);
+    return reply(error,what,"casa da qualche parte");
 }
 
 function insertToFreezer(what,qty) {
@@ -66,7 +66,7 @@ function insertToFreezer(what,qty) {
 
     var pantry = new PantryFreezer({
       element: what,
-      location: "home",
+      location: "freezer",
       insertdate: new Date(),
       quantity: qty
     });
@@ -83,7 +83,7 @@ function insertToFreezer(what,qty) {
     });
 
     //return a response
-    reply(error);
+    return reply(error,what,"freezer");
 }
 
 function insertToFridge(what,qty) {
@@ -91,7 +91,7 @@ function insertToFridge(what,qty) {
 
     var pantry = new PantryFridge({
       element: what,
-      location: "home",
+      location: "fridge",
       insertdate: new Date(),
       quantity: qty
     });
@@ -108,7 +108,7 @@ function insertToFridge(what,qty) {
     });
 
     //return a response
-    reply(error);
+    return reply(error,what,"frigo");
 }
 
 function insertToPantry(what,qty) {
@@ -116,7 +116,7 @@ function insertToPantry(what,qty) {
 
     var pantry = new Pantry({
       element: what,
-      location: "home",
+      location: "pantry",
       insertdate: new Date(),
       quantity: qty
     });
@@ -133,10 +133,10 @@ function insertToPantry(what,qty) {
     });
 
     //return a response
-    reply(error);
+    return reply(error,what,"cantina");
 }
 
-function reply(error) {
+function reply(error,what,where) {
     if(error) {
       console.log(error);
       return response.json({
@@ -144,7 +144,7 @@ function reply(error) {
       });
     } else {
       return {
-          fulfillmentText: 'Bene ho salvato '+what
+          fulfillmentText: 'Bene ho salvato '+what+' in '+where
       };
     }
 
