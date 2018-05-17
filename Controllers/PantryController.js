@@ -21,16 +21,16 @@ module.exports = {
 
       switch(param.where) {
         case "home":
-          insertToHome(param.what,param.qty);
+          insertToHome(param.what,param.number);
           break;
         case "freezer":
-          insertToFreezer(param.what,param.qty);
+          insertToFreezer(param.what,param.number);
           break;
         case "fridge":
-          insertToFridge(param.what,param.qty);
+          insertToFridge(param.what,param.number);
           break;
         default:
-          insertToPantry(param.what,param.qty);
+          insertToPantry(param.what,param.number);
           break;
       }
     }
