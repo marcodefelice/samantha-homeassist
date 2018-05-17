@@ -1,9 +1,9 @@
 'use strict';
 var mongoose = require('mongoose');
 Pantry = require('../Models/Pantry');
-Pantry = require('../Models/PantryHome');
-Pantry = require('../Models/PantryFreezer');
-Pantry = require('../Models/PantryFridge');
+PantryHome = require('../Models/PantryHome');
+PantryFreezer = require('../Models/PantryFreezer');
+PantryFridge = require('../Models/PantryFridge');
 
 var Pantry = mongoose.model('Pantry');
 
