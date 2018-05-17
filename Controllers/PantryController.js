@@ -21,7 +21,7 @@ module.exports = {
 
       switch(param.where) {
         case "home":
-          insertIntoHome(param.what,param.qty);
+          insertToHome(param.what,param.qty);
           break;
         case "freezer":
           insertToFreezer(param.what,param.qty);
