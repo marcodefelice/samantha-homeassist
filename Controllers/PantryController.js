@@ -19,6 +19,10 @@ module.exports = {
     insertFood: function(req,response) {
       let param = req.body.queryResult.parameters;
 
+      if(param.number == "un") {
+        param.number = 1; 
+      }
+
       switch(param.where) {
         case "home":
           return insertToHome(param.what,param.number);
@@ -30,7 +34,7 @@ module.exports = {
           return insertToFridge(param.what,param.number);
           break;
         default:
-          return insertToPantry(param.what,param.number);
+          return insertToPantry(param.what,param.number,param.where);
           break;
       }
     }
@@ -111,12 +115,12 @@ function insertToFridge(what,qty) {
     return reply(error,what,"frigo");
 }
 
-function insertToPantry(what,qty) {
+function insertToPantry(what,qty,where) {
     var error = false
 
     var pantry = new Pantry({
       element: what,
-      location: "pantry",
+      location: where,
       insertdate: new Date(),
       quantity: qty
     });
