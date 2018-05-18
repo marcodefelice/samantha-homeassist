@@ -11,11 +11,6 @@ var Pantry = mongoose.model('Pantry');
 //https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2beta1/WebhookResponse
 
 module.exports = {
-    getFood: function(req,res) {
-      return res.json({
-          fulfillmentText: 'Verifico cosa puoi',
-      });
-    },
     insertFood: function(req,response) {
       let param = req.body.queryResult.parameters;
 
