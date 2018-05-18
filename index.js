@@ -8,7 +8,9 @@ var mongoose     = require('mongoose')
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect(config.dbUrl);
+mongoose.connect(config.dbUrl).then(function(err) {
+  if(err) console.error("could not connect")
+});
 
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());

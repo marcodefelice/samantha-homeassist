@@ -20,7 +20,7 @@ module.exports = {
       let param = req.body.queryResult.parameters;
 
       if(param.number == "un") {
-        param.number = 1; 
+        param.number = 1;
       }
 
       switch(param.where) {
@@ -50,15 +50,29 @@ function insertToHome(what,qty) {
       quantity: qty
     });
 
-    //save
-    pantry.save(function(err,res) {
-      if (err) {
-        error = true;
-        console.log(err);
+    find(PantryHome,what,function(resp) {
+
+      if(resp.result) {
+        var numbers = parseInt(qty) + parseInt(resp.qty)
+        var query = { _id: resp._id }
+        pantry.update(
+          query,
+          {quantity: numbers},
+          null,
+          null
+        )
       } else {
-        error = false;
-        console.log(res);
+        pantry.save(function(err,res) {
+          if (err) {
+            error = true;
+            console.log(err);
+          } else {
+            error = false;
+            console.log(res);
+          }
+        });
       }
+
     });
 
     //return a response
@@ -75,15 +89,29 @@ function insertToFreezer(what,qty) {
       quantity: qty
     });
 
-    //save
-    pantry.save(function(err,res) {
-      if (err) {
-        error = true;
-        console.log(err);
+    find(PantryFreezer,what,function(resp) {
+
+      if(resp.result) {
+        var numbers = parseInt(qty) + parseInt(resp.qty)
+        var query = { _id: resp._id }
+        pantry.update(
+          query,
+          {quantity: numbers},
+          null,
+          null
+        )
       } else {
-        error = false;
-        console.log(res);
+        pantry.save(function(err,res) {
+          if (err) {
+            error = true;
+            console.log(err);
+          } else {
+            error = false;
+            console.log(res);
+          }
+        });
       }
+
     });
 
     //return a response
@@ -101,14 +129,29 @@ function insertToFridge(what,qty) {
     });
 
     //save
-    pantry.save(function(err,res) {
-      if (err) {
-        error = true;
-        console.log(err);
+    find(PantryFridge,what,function(resp) {
+
+      if(resp.result) {
+        var numbers = parseInt(qty) + parseInt(resp.qty)
+        var query = { _id: resp._id }
+        pantry.update(
+          query,
+          {quantity: numbers},
+          null,
+          null
+        )
       } else {
-        error = false;
-        console.log(res);
+        pantry.save(function(err,res) {
+          if (err) {
+            error = true;
+            console.log(err);
+          } else {
+            error = false;
+            console.log(res);
+          }
+        });
       }
+
     });
 
     //return a response
@@ -125,15 +168,29 @@ function insertToPantry(what,qty,where) {
       quantity: qty
     });
 
-    //save
-    pantry.save(function(err,res) {
-      if (err) {
-        error = true;
-        console.log(err);
+    find(Pantry,what,function(resp) {
+
+      if(resp.result) {
+        var numbers = parseInt(qty) + parseInt(resp.qty)
+        var query = { _id: resp._id }
+        pantry.update(
+          query,
+          {quantity: numbers},
+          null,
+          null
+        )
       } else {
-        error = false;
-        console.log(res);
+        pantry.save(function(err,res) {
+          if (err) {
+            error = true;
+            console.log(err);
+          } else {
+            error = false;
+            console.log(res);
+          }
+        });
       }
+
     });
 
     //return a response
@@ -152,4 +209,41 @@ function reply(error,what,where) {
       };
     }
 
+  }
+
+  function find(db,what,callback) {
+    var qty = 0;
+    var result = false;
+    db.findOne({ element: what })
+        .select('quantity')
+        .exec(function(err, txs) {
+              if(txs.length != 0) {
+              qty = txs.quantity;
+              result = true;
+            } else {
+              result = false;
+            }
+
+            var response = {
+              result: result,
+              qty: qty,
+              _id: txs._id
+            }
+
+            callback(response);
+
+        });
+  }
+
+  function remove(db,what) {
+      db.find({ element: what }, function(err, result) {
+        if (err) throw err;
+
+        // delete him
+        user.remove(function(err) {
+          if (err) throw err;
+
+          console.log(result);
+        });
+      });
   }
