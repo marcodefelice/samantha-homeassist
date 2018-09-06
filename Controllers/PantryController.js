@@ -49,11 +49,6 @@ var Pantry = mongoose.model('Pantry');
 //https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2beta1/WebhookResponse
 
 module.exports = {
-    checkpantry: function(req,res) {
-      let param = req.body.queryResult.parameters;
-      return checkPantryFunc(req,param);
-
-    },
     insertFood: function(req,response) {
       let param = req.body.queryResult.parameters;
 
@@ -191,7 +186,7 @@ function checkPantryFunc(req,p) {
 
   var qui = Pantry.findOne({element:p.what}).select('quantity').exec()
   qui.then(function(txs) {
-    console.log(txs) 
+    console.log(txs)
   })
 
   /*for(var x = 0; x < dbObj.length; x++) {
