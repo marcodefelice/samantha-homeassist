@@ -30,7 +30,7 @@ function insert(db,what,qty,where) {
         pantry.save(function(err,res) {
           if (err) {
             error = true;
-            console.log(err);
+            console.error(err);
           } else {
             error = false;
             console.log(res);
@@ -109,7 +109,7 @@ function insert(db,what,qty,where) {
         pantry.save(function(err,res) {
           if (err) {
             error = true;
-            console.log(err);
+            console.error(err);
           } else {
             error = false;
             console.log(res);
