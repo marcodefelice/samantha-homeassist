@@ -15,7 +15,7 @@ function insert(db,what,qty,where) {
       quantity: qty
     });
 
-    find(db,what,function(resp) {
+    findOne(db,what,function(resp) {
 
       if(resp.result) {
         var numbers = parseInt(qty) + parseInt(resp.qty)
@@ -49,10 +49,10 @@ var Pantry = mongoose.model('Pantry');
 //https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2beta1/WebhookResponse
 
 module.exports = {
-    getFood: function(req,res) {
-      return res.json({
-          fulfillmentText: 'Verifico cosa puoi',
-      });
+    checkpantry: function(req,res) {
+      let param = req.body.queryResult.parameters;
+      return checkPantryFunc(req,param);
+
     },
     insertFood: function(req,response) {
       let param = req.body.queryResult.parameters;
@@ -99,7 +99,7 @@ function insert(db,what,qty,where) {
       quantity: qty
     });
 
-    find(db,what,function(resp) {
+    findOne(db,what,function(resp) {
 
       if(resp.result) {
         var numbers = parseInt(qty) + parseInt(resp.qty)
@@ -125,54 +125,83 @@ function insert(db,what,qty,where) {
     });
 
     //return a response
-    return reply(error,what,where);
+    return reply(error,what,where,'Bene ho salvato ');
 }
 
-function reply(error,what,where) {
+function reply(error,what,where,reply) {
   if(error) {
-    console.log(error);
-    return response.json({
-        fulfillmentText: 'Si è verificato un errore'
-    });
-  } else {
+    console.log("error:",error);
     return {
-        fulfillmentText: 'Bene ho salvato '+what+' in '+where
+        fulfillmentText: 'Si è verificato un errore'
+    };
+  } else {
+    console.log("REPLY:",reply+' '+what+' in '+where)
+    return {
+        fulfillmentText: reply+' '+what+' in '+where
     };
   }
 
 }
 
-function find(db,what,callback) {
+function findOne(db,what,callback) {
   var qty = 0;
   var result = false;
   db.findOne({ element: what })
       .select('quantity')
       .exec(function(err, txs) {
-            if(txs.length != 0) {
+          if(txs != null) {
             qty = txs.quantity;
             result = true;
+            var response = {
+              result: result,
+              qty: qty,
+              _id: txs._id
+            }
           } else {
+            var response = {
+              result: result
+            }
             result = false;
           }
 
-          var response = {
-            result: result,
-            qty: qty,
-            _id: txs._id
-          }
-
-          callback(response);
+          return callback(response);
 
       });
 }
 
 function remove(what,db) {
-    db.find({ element: what }, function(err, result) {
+    db.findOne({ element: what }, function(err, result) {
       if (err) throw err;
       // delete him
       user.remove(function(err) {
         if (err) throw err;
-        console.log(result);
       });
     });
+}
+
+/**
+/ start funcion for checkPantryFunc
+**/
+
+function checkPantryFunc(req,p) {
+  var response = 'Non ho trovato '+p.what
+  var result = false;
+  var dbObj = [Pantry,PantryHome,PantryFridge,PantryFreezer]
+  var where = ["cantina","casa","frigo","freezer"]
+
+  var qui = Pantry.findOne({element:p.what}).select('quantity').exec()
+  qui.then(function(txs) {
+    console.log(txs) 
+  })
+
+  /*for(var x = 0; x < dbObj.length; x++) {
+    findOne(dbObj[0],p.what, function(res) {
+      if(res.result) {
+          response = 'Hai '+ res.qty + ' di '+ p.what
+          result = true
+          reply(false,p.what,where[0],'Ho trovato '+p.qty)
+          x = 5
+      }
+    })
+  }*/
 }
