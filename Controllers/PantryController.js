@@ -30,7 +30,7 @@ function insert(db,what,qty,where) {
         pantry.save(function(err,res) {
           if (err) {
             error = true;
-            console.log(err);
+            console.error(err);
           } else {
             error = false;
             console.log(res);
@@ -114,7 +114,7 @@ function insert(db,what,qty,where) {
         pantry.save(function(err,res) {
           if (err) {
             error = true;
-            console.log(err);
+            console.error(err);
           } else {
             error = false;
             console.log(res);
@@ -191,7 +191,7 @@ function checkPantryFunc(req,p) {
 
   var qui = Pantry.findOne({element:p.what}).select('quantity').exec()
   qui.then(function(txs) {
-    console.log(txs) 
+    console.log(txs)
   })
 
   /*for(var x = 0; x < dbObj.length; x++) {

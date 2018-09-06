@@ -9,7 +9,7 @@ var mongoose     = require('mongoose')
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl).then(function(err) {
-  if(err) console.error("could not connect")
+  if(err) console.error("could not connect to mongoose DB")
 });
 
 server.use(bodyParser.urlencoded({ extended: true }));
