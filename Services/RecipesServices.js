@@ -1,28 +1,34 @@
-'use_strict'
+'use_strict'    
+var request = require("request");
+config = require("../config");
 
-var http = require("http");
+module.exports = {
+  serviceRecipe: function(param,callBack) {
 
-var options = {
-  host: 'www.google.com',
-  port: 80,
-  path: '/upload',
-  method: 'POST'
-};
+    var options = { method: 'POST',
+      url: config.api_svuotafrigo,
+      qs: { page: '0' },
+      headers: 
+       { 'Postman-Token': '70f3cff9-d824-449f-b0cd-4d1db2f95afa',
+         'Cache-Control': 'no-cache',
+         'Content-Type': 'application/json',},
+      formData: { ingredients: JSON.stringify(param) } };
+    
+      request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+    
+     callBack(body)
+     
+    });
+  },
 
-var req = http.request(options, function(res) {
-  console.log('STATUS: ' + res.statusCode);
-  console.log('HEADERS: ' + JSON.stringify(res.headers));
-  res.setEncoding('utf8');
-  res.on('data', function (chunk) {
-    console.log('BODY: ' + chunk);
-  });
-});
-
-req.on('error', function(e) {
-  console.log('problem with request: ' + e.message);
-});
-
-// write data to request body
-req.write('data\n');
-req.write('data\n');
-req.end();
+  serviceInspireMe: function() {
+    request({
+      url: config.api_inspireMe,
+      method: 'GET',
+      json : true,
+    }, function(err, res, body) {
+      console.log(body);
+    });;
+  }
+}
