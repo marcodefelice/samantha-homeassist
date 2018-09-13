@@ -31,12 +31,12 @@ function getRecipe(req,response) {
                   text : [
                     string
                   ],
-                }
+                },
                 imgae: {
                   imageUri : [
                     res.results[x].urlImage
                   ],
-                }
+                },
             });
 
         } else {
