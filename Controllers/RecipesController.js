@@ -26,18 +26,18 @@ function getRecipe(req,response) {
                      + ' Link della ricetta ' + res.results[x].url;
 
             response.json({
-                fulfillmentText: "In totale ho trovato "+ res.results.lenght +" di ricette",
+                fulfillmentText: "In totale ho trovato "+ res.results.length +" ricette",
                 fulfillmentMessages: string,
                 imageUri : [res.results[x].urlImage]
             });
 
         } else {
-            
+
             response.json({
                 fulfillmentText: 'Si è verificato un errore'
             });
         }
       });
 
-      
+
 }
