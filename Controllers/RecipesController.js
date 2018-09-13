@@ -31,10 +31,7 @@ function getRecipe(req,response) {
                   text : {
                     text : [string]
                   },
-                }],
-                image: {
-                  imageUri : res.results[x].urlImage,
-                },
+                }]
             });
 
         } else {
