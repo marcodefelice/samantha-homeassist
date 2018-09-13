@@ -32,10 +32,8 @@ function getRecipe(req,response) {
                     text : [string]
                   },
                 }],
-                imgage: {
-                  imageUri : [
-                    res.results[x].urlImage
-                  ],
+                image: {
+                  imageUri : res.results[x].urlImage,
                 },
             });
 
