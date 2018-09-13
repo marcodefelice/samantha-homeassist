@@ -27,8 +27,16 @@ function getRecipe(req,response) {
 
             response.json({
                 fulfillmentText: "In totale ho trovato "+ res.results.length +" ricette",
-                fulfillmentMessages: string,
-                imageUri : [res.results[x].urlImage]
+                fulfillmentMessages: {
+                  text : [
+                    string
+                  ],
+                }
+                imgae: {
+                  imageUri : [
+                    res.results[x].urlImage
+                  ],
+                }
             });
 
         } else {
