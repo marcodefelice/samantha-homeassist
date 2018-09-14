@@ -9,7 +9,7 @@ module.exports = {
 }
 
 function getRecipe(req,response) {
-    if(req.queryResult.parameters.ingredients) {
+    if(req.body.queryResult.parameters) {
       serviceRecipe.serviceRecipe([
           "uova sode","patate","piselli"
         ], function(res,reply) {
