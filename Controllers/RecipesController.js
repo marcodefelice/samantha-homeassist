@@ -9,38 +9,49 @@ module.exports = {
 }
 
 function getRecipe(req,response) {
-    var request = serviceRecipe.serviceRecipe([
-        "uova sode","patate","piselli"
-      ], function(res,reply) {
-          var res = JSON.parse(res)
-        if(res.status == 0) {
-            var string = 'Ecco cosa ho trovato:'
+    if(req.queryResult.parameters.ingredients) {
+      serviceRecipe.serviceRecipe([
+          "uova sode","patate","piselli"
+        ], function(res,reply) {
+            var res = JSON.parse(res)
+          if(res.status == 0) {
+              var string = 'Ecco cosa ho trovato:'
+              var x = 0
+                  string += res.results[x].nome
+                       + ' Difficoltà '+ res.results[x].difficolta
+                       + ' Tempo di preparazione ' + res.results[x].tempoPreparazione
+                       + ' Tempo di preparazione ' + res.results[x].difficolta
+                       + ' Link della ricetta ' + res.results[x].url;
 
-            //todo: implementare ricette successive se questa non va bene
-            // verrà passato un paramentro +1 per recuperare la ricetta successiva
-            var x = 0
-                string += res.results[x].nome
-                     + ' Difficoltà '+ res.results[x].difficolta
-                     + ' Tempo di preparazione ' + res.results[x].tempoPreparazione
-                     + ' Tempo di preparazione ' + res.results[x].difficolta
-                     + ' Link della ricetta ' + res.results[x].url;
+              response.json({
+                  fulfillmentText: "In totale ho trovato "+ res.results.length +" ricette, ecco la prima",
+                  fulfillmentMessages: [{
+                    text : {
+                      text : [string]
+                    },
+                  }]
+              });
 
-            response.json({
-                fulfillmentText: "In totale ho trovato "+ res.results.length +" ricette",
-                fulfillmentMessages: [{
-                  text : {
-                    text : [string]
-                  },
-                }]
-            });
-
-        } else {
-
-            response.json({
-                fulfillmentText: 'Si è verificato un errore'
-            });
-        }
-      });
-
-
+          } else {
+              response.json({
+                  fulfillmentText: 'Si è verificato un errore'
+              });
+          }
+        });
+    } else {
+      serviceRecipe.serviceInspireMe(
+          function(res,reply) {
+            var res = JSON.parse(res)
+            if(res.status == 0) {
+              var string = "Cosa ne pensi di preparare " + res.results.nome
+              response.json({
+                  fulfillmentText: string
+              });
+            } else {
+                response.json({
+                    fulfillmentText: 'Si è verificato un errore'
+                });
+            }
+        });
+    }
 }
